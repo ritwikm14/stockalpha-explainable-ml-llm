@@ -1,6 +1,3 @@
-Of course, here’s the full `README.md` again – just copy-paste this into your `README.md` file in VS Code.
-
-````markdown
 # StockAlpha – Explainable Stock Signals (ML + LLM)
 
 <p align="center">
@@ -108,154 +105,146 @@ Constraints:
 ├─ .env.example              # Template for API keys (no secrets)
 ├─ .gitignore
 └─ README.md
-````
 
-> `data/` and `.env` are **not** committed.
-> `.env.example` documents required environment variables.
+5. Features
+5.1 Stock Signal Modeling
 
----
+Universe: large-cap U.S. equities (AAPL, MSFT, AMZN, GOOGL, META).
 
-## 5. Features
+Features per (symbol, date):
 
-### 5.1 Stock Signal Modeling
+short_ma, long_ma – moving averages of adjusted close
 
-* Universe: large-cap U.S. equities (AAPL, MSFT, AMZN, GOOGL, META).
-* Features per (symbol, date):
+return, ret_lag1, ret_lag2 – daily & lagged returns
 
-  * `short_ma`, `long_ma` – moving averages of adjusted close
-  * `return`, `ret_lag1`, `ret_lag2` – daily & lagged returns
-  * `short_vol`, `long_vol` – rolling volatility
-* Target:
+short_vol, long_vol – rolling volatility
 
-  * `up_next_day = 1` if **next close > current close**, else `0`.
-* Models:
+Target:
 
-  * Logistic Regression
-  * Random Forest
-  * XGBoost
-* Metric:
+up_next_day = 1 if next close > current close, else 0.
 
-  * **Directional accuracy** on a held-out test set
-  * Typical values around **53–55%**, realistic for noisy financial series.
+Models:
 
-### 5.2 Explainable AI (XAI) with LLM
+Logistic Regression
 
-* Inputs to LLM:
+Random Forest
 
-  * Symbol, date
-  * Predicted probability of UP
-  * Binary label (UP / NOT UP)
-  * Key feature values (MAs, returns, volatility)
-* LLM prompt focuses on:
+XGBoost
 
-  * Short vs long MA (trend)
-  * Recent returns (momentum / mean reversion)
-  * Short vs long volatility (stability vs choppiness)
-  * Explicit **disclaimer**: weak statistical signal, not investment advice.
-* Fallback:
+Metric:
 
-  * If LLM call fails, a rule-based explanation string is generated.
+Directional accuracy on a held-out test set
 
-### 5.3 Streamlit Dashboard
+Typical values around 53–55%, realistic for noisy financial series.
 
-* **Inputs**
+5.2 Explainable AI (XAI) with LLM
 
-  * Stock symbol selector
-  * Date selector (latest at bottom)
+Inputs to LLM:
 
-* **Outputs**
+Symbol, date
 
-  * Probability of UP and predicted label
-  * LLM-generated explanation
-  * Feature snapshot (JSON view)
-  * **Historical price chart** (Adjusted Close)
-  * **Recent Direction: Model vs Actual** bar chart (last 30 trading days)
-  * **Cross-Sectional Signal Table**:
+Predicted probability of UP
 
-    * All symbols ranked by probability of UP
-    * Latest adjusted close for each symbol
+Binary label (UP / NOT UP)
 
----
+Key feature values (MAs, returns, volatility)
 
-## 6. Setup & Usage
+LLM prompt focuses on:
 
-### 6.1 Clone the repository
+Short vs long MA (trend)
 
-```bash
+Recent returns (momentum / mean reversion)
+
+Short vs long volatility (stability vs choppiness)
+
+Explicit disclaimer: weak statistical signal, not investment advice.
+
+Fallback:
+
+If LLM call fails, a rule-based explanation string is generated.
+
+5.3 Streamlit Dashboard
+
+Inputs
+
+Stock symbol selector
+
+Date selector (latest at bottom)
+
+Outputs
+
+Probability of UP and predicted label
+
+LLM-generated explanation
+
+Feature snapshot (JSON view)
+
+Historical price chart (Adjusted Close)
+
+Recent Direction: Model vs Actual bar chart (last 30 trading days)
+
+Cross-Sectional Signal Table:
+
+All symbols ranked by probability of UP
+
+Latest adjusted close for each symbol
+
+6. Setup & Usage
+6.1 Clone the repository
 git clone https://github.com/ritwikm14/stockalpha-explainable-ml-llm.git
 cd stockalpha-explainable-ml-llm
-```
 
-### 6.2 Create and activate environment
-
-```bash
+6.2 Create and activate environment
 conda create -n finance_stock_env python=3.13 -y
 conda activate finance_stock_env
-```
 
-Install dependencies (adapt once you export `requirements.txt`):
-
-```bash
+Install dependencies (adapt once you export requirements.txt):
 pip install pandas numpy scikit-learn xgboost streamlit python-dotenv requests openai
-```
 
-### 6.3 Configure environment variables
+6.3 Configure environment variables
 
-Create a `.env` file in the project root (copy from `.env.example`) and fill in:
-
-```text
+Create a .env file in the project root (copy from .env.example) and fill in:
 ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key_here
 OPENAI_API_KEY=your_openai_or_proxy_key_here
 OPENAI_BASE_URL=optional_custom_base_url_if_using_proxy
-```
 
-`.env` is gitignored; keys never leave your machine.
-
-### 6.4 Fetch data, build features, train models
-
-```bash
+6.4 Fetch data, build features, train models
 python -m src.fetch_data
 python -m src.features
 python -m src.models
-```
 
-### 6.5 Run CLI demo (optional)
-
-```bash
+6.5 Run CLI demo (optional)
 python demo_prediction.py
-```
 
-### 6.6 Launch Streamlit dashboard
-
-```bash
+6.6 Launch Streamlit dashboard
 streamlit run app/dashboard.py
-```
 
-Then open `http://localhost:8501` in your browser.
+Then open http://localhost:8501 in your browser.
 
----
+7. Limitations & Extensions
 
-## 7. Limitations & Extensions
+Current limitations
 
-**Current limitations**
+Small symbol universe and short history window.
 
-* Small symbol universe and short history window.
-* Only OHLCV features; no fundamentals, macro data, or news/sentiment.
-* No transaction cost modeling or portfolio optimization.
+Only OHLCV features; no fundamentals, macro data, or news/sentiment.
 
-**Potential extensions**
+No transaction cost modeling or portfolio optimization.
 
-* Expand universe and history; test cross-validation by regime.
-* Add news / sentiment signals using NLP and RAG.
-* Replace the baseline with more advanced time-series models.
-* Wrap the core pipeline in **FastAPI** and serve via a production frontend.
+Potential extensions
 
----
+Expand universe and history; test cross-validation by regime.
 
-## 8. Status
+Add news / sentiment signals using NLP and RAG.
 
-* ✅ End-to-end pipeline working (API → features → models → dashboard).
-* ✅ GenAI explanation layer integrated with safe fallbacks.
-* ✅ Ready as a portfolio project for **ML / GenAI / Quant / FinTech** roles.
+Replace the baseline with more advanced time-series models.
 
+Wrap the core pipeline in FastAPI and serve via a production frontend.
 
+8. Status
+
+✅ End-to-end pipeline working (API → features → models → dashboard).
+
+✅ GenAI explanation layer integrated with safe fallbacks.
+
+✅ Ready as a portfolio project for ML / GenAI / Quant / FinTech roles.
