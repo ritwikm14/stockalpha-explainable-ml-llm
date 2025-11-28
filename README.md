@@ -1,24 +1,18 @@
-
----
-
-````markdown
 # 📈 StockAlpha – Explainable Stock Signals (ML + LLM)
 
-<p align="center">
-  Generate interpretable stock movement signals using real financial data, machine learning models, and GenAI explanations — all accessible through a modern Streamlit dashboard.
-</p>
+Generate interpretable stock movement signals using real financial data, machine learning models, and GenAI explanations — all visualized in an interactive Streamlit dashboard.
 
 <p align="center">
-  <img alt="Python" src="https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white">
-  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-ML%20Models-orange?logo=scikitlearn&logoColor=white">
-  <img alt="xgboost" src="https://img.shields.io/badge/XGBoost-Gradient%20Boosting-blueviolet?logo=boost">
-  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-Interactive%20Dashboard-ff4b4b?logo=streamlit&logoColor=white">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.13%2B-blue?logo=python">
+  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-ML-orange?logo=scikit-learn">
+  <img alt="XGBoost" src="https://img.shields.io/badge/XGBoost-Boosting-blueviolet">
+  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-Dashboard-ff4b4b?logo=streamlit">
   <img alt="OpenAI" src="https://img.shields.io/badge/GenAI-LLM%20Explanations-8A2BE2">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green">
 </p>
 
-> 🎓 Built for a graduate course on **Finance Information Processing**.  
-> ⚠️ This tool is for educational purposes only and **not intended for financial trading or investment advice**.
+> 🎓 Developed for a graduate-level **Finance Information Processing** course.  
+> ⚠️ Educational use only – **not financial or trading advice**.
 
 ---
 
@@ -38,25 +32,27 @@
 
 ---
 
-## 1. Overview
+## 1. 📌 Overview
 
-**StockAlpha** predicts whether a large-cap U.S. stock’s closing price will go **up or not up** the next day using technical indicators and interprets the results with a large language model (LLM). It supports:
+**StockAlpha** predicts whether a stock’s next-day closing price will be higher than today’s and explains the prediction in plain English using a Large Language Model (LLM).
 
-- Real-time data from **Alpha Vantage**
-- Machine learning models (Logistic Regression, Random Forest, XGBoost)
-- LLM-generated explanations (via OpenAI or compatible API)
-- A full-featured **Streamlit dashboard**
+The full pipeline includes:
+- Live market data (via Alpha Vantage API)
+- Feature engineering (technical indicators)
+- ML models (Logistic Regression, Random Forest, XGBoost)
+- LLM-based explanations
+- Streamlit dashboard
 
 ---
 
-## 2. Problem Statement
+## 2. ❓ Problem Statement
 
-Predict whether a stock’s **next-day closing price** will be higher than today’s, and explain the prediction in simple terms.
+Predict whether a stock’s **next closing price** will be **up** or **not up**, and explain that prediction in human-readable language.
 
-### Requirements:
-- Use **real financial data** (no synthetic datasets).
-- Provide a **working pipeline** (data → features → model → dashboard).
-- Generate **interpretable explanations** for non-technical users.
+### Key Constraints
+- Use real-time data from a **financial API**
+- Output must be **interpretable** to non-technical users
+- Provide a **complete working codebase and dashboard**
 
 ---
 
