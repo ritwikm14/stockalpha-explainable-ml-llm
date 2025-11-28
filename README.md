@@ -27,8 +27,6 @@ Generate interpretable stock movement signals using real financial data, machine
 7. [Installation & Usage](#7-installation--usage)  
 8. [Limitations](#8-limitations)  
 9. [Future Work](#9-future-work)  
-10. [License](#10-license)  
-11. [Contributors](#11-contributors)
 
 ---
 
@@ -267,29 +265,4 @@ Then open: [http://localhost:8501](http://localhost:8501)
 
 ---
 
-## 10. License
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## 11. Contributors
-
-* [@ritwikm14](https://github.com/ritwikm14) – Creator & Maintainer
-
----
-
-```
-
----
-
-### ✅ Want it as a file?
-Let me know and I can generate a downloadable `README.md` file for you.
-
-Would you also like:
-- A `requirements.txt` based on the packages mentioned?
-- A sample `.env.example` file generated?
-- A banner or logo suggestion for the project?
-
-Let me know!
-```
