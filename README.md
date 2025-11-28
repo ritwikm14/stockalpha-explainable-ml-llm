@@ -1,212 +1,237 @@
-
+Here’s a **complete, well-structured `README.md` file** rewritten from top to bottom with clarity, professional formatting, and improvements in structure. You can **copy-paste this directly into VS Code** or I can provide it as a downloadable file if needed.
 
 ---
 
-```markdown
+````markdown
 # 📈 StockAlpha – Explainable Stock Signals (ML + LLM)
 
 <p align="center">
-  API-driven stock movement signals using the Alpha Vantage API, machine learning, and GenAI explanations, visualized in an interactive Streamlit dashboard.
+  Generate interpretable stock movement signals using real financial data, machine learning models, and GenAI explanations — all accessible through a modern Streamlit dashboard.
 </p>
 
 <p align="center">
   <img alt="Python" src="https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white">
-  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-ML%20models-orange?logo=scikitlearn&logoColor=white">
-  <img alt="NumPy" src="https://img.shields.io/badge/NumPy-numerical%20computing-informational?logo=numpy&logoColor=white">
-  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-interactive%20dashboard-ff4b4b?logo=streamlit&logoColor=white">
-  <img alt="GenAI LLM" src="https://img.shields.io/badge/GenAI-LLM%20explanations-8A2BE2">
-  <img alt="Editor" src="https://img.shields.io/badge/Editor-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white">
+  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-ML%20Models-orange?logo=scikitlearn&logoColor=white">
+  <img alt="xgboost" src="https://img.shields.io/badge/XGBoost-Gradient%20Boosting-blueviolet?logo=boost">
+  <img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-Interactive%20Dashboard-ff4b4b?logo=streamlit&logoColor=white">
+  <img alt="OpenAI" src="https://img.shields.io/badge/GenAI-LLM%20Explanations-8A2BE2">
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green">
 </p>
 
-> 📚 Educational prototype built for a graduate **Finance Information Processing** course.  
-> ⚠️ Not investment advice – built for educational and demonstrative purposes only.
+> 🎓 Built for a graduate course on **Finance Information Processing**.  
+> ⚠️ This tool is for educational purposes only and **not intended for financial trading or investment advice**.
 
 ---
 
-## 📌 Table of Contents
+## 📚 Table of Contents
 
-1. [Problem Statement](#1-problem-statement)  
-2. [High-Level Solution](#2-high-level-solution)  
-3. [Tech Stack](#3-tech-stack)  
-4. [Project Structure](#4-project-structure)  
-5. [Features](#5-features)  
-6. [Setup & Usage](#6-setup--usage)  
-7. [Limitations & Extensions](#7-limitations--extensions)  
-8. [Project Status](#8-status)  
-
----
-
-## 1. Problem Statement
-
-Given recent daily OHLCV data for large-cap U.S. stocks, predict whether **tomorrow’s closing price will be higher than today’s** (UP vs NOT UP), and provide a **plain-English explanation** of the model’s prediction.
-
-**Constraints:**
-
-- Use real-world data from a financial API (no synthetic/Kaggle datasets).
-- Provide a working, documented, and demoable pipeline.
-- Ensure the prediction is interpretable by non-technical users.
+1. [Overview](#1-overview)  
+2. [Problem Statement](#2-problem-statement)  
+3. [Solution Architecture](#3-solution-architecture)  
+4. [Tech Stack](#4-tech-stack)  
+5. [Project Structure](#5-project-structure)  
+6. [Features](#6-features)  
+7. [Installation & Usage](#7-installation--usage)  
+8. [Limitations](#8-limitations)  
+9. [Future Work](#9-future-work)  
+10. [License](#10-license)  
+11. [Contributors](#11-contributors)
 
 ---
 
-## 2. High-Level Solution
+## 1. Overview
 
-1. **Data Ingestion:**  
-   Use Alpha Vantage’s **Time Series (Daily Adjusted)** API to collect stock data.
+**StockAlpha** predicts whether a large-cap U.S. stock’s closing price will go **up or not up** the next day using technical indicators and interprets the results with a large language model (LLM). It supports:
 
-2. **Feature Engineering:**  
-   Generate technical features:
-   - Moving Averages (short/long)
-   - Lagged Returns
-   - Rolling Volatility
-
-3. **Model Training:**  
-   Evaluate multiple models:
-   - Logistic Regression  
-   - Random Forest  
-   - XGBoost  
-   Select based on **directional accuracy** on a test set.
-
-4. **Explanation Layer (LLM):**  
-   Use an LLM to generate **natural-language rationales** from model outputs.
-
-5. **Dashboard (Streamlit):**  
-   Interactive UI to explore predictions, explanations, charts, and rankings.
+- Real-time data from **Alpha Vantage**
+- Machine learning models (Logistic Regression, Random Forest, XGBoost)
+- LLM-generated explanations (via OpenAI or compatible API)
+- A full-featured **Streamlit dashboard**
 
 ---
 
-## 3. Tech Stack
+## 2. Problem Statement
 
-### 📦 Languages & Runtime
-- Python 3.13  
-- Conda environment: `finance_stock_env`
+Predict whether a stock’s **next-day closing price** will be higher than today’s, and explain the prediction in simple terms.
 
-### 🔧 Libraries & Tools
-- **Data:** `pandas`, `numpy`  
-- **ML:** `scikit-learn`, `xgboost`  
-- **API Calls:** `requests`  
-- **Dashboard:** `streamlit`  
-- **Environment Management:** `python-dotenv`  
-- **LLM Integration:** `openai` or compatible endpoint
-
-### 🌐 External Services
-- **Alpha Vantage:** Stock market data
-- **OpenAI or Proxy Endpoint:** LLM explanations (with fallback support)
+### Requirements:
+- Use **real financial data** (no synthetic datasets).
+- Provide a **working pipeline** (data → features → model → dashboard).
+- Generate **interpretable explanations** for non-technical users.
 
 ---
 
-## 4. Project Structure
+## 3. Solution Architecture
 
-```
-
-.
-├── app/
-│   └── dashboard.py            # Streamlit dashboard
-├── src/
-│   ├── config.py               # Symbols, paths, env vars
-│   ├── fetch_data.py           # Alpha Vantage API integration
-│   ├── features.py             # Feature engineering
-│   ├── models.py               # ML models & training
-│   ├── llm_explain.py          # LLM explanations
-│   └── **init**.py
-├── data/
-│   ├── raw/                    # Raw API data (ignored by Git)
-│   └── processed/              # Engineered features (ignored by Git)
-├── demo_prediction.py          # CLI demo for one prediction
-├── .env.example                # Template for API keys
-├── .gitignore
-└── README.md
-
+```text
+                ┌────────────────────┐
+                │  Alpha Vantage API │
+                └────────┬───────────┘
+                         ▼
+                  fetch_data.py
+                         ▼
+              ┌────────────────────┐
+              │ Feature Engineering│
+              └────────┬───────────┘
+                         ▼
+                  features.py
+                         ▼
+              ┌────────────────────┐
+              │  Model Training    │
+              └────────┬───────────┘
+                         ▼
+                   models.py
+                         ▼
+              ┌────────────────────┐
+              │   Prediction +     │
+              │  LLM Explanation   │
+              └────────┬───────────┘
+                         ▼
+         Streamlit UI ← dashboard.py → llm_explain.py
 ````
 
-> 🔐 `.env` and `data/` folders are ignored in version control for security.
+---
+
+## 4. Tech Stack
+
+### 🧪 Programming
+
+* Python 3.13+
+* Conda environment (`finance_stock_env`)
+
+### 🔧 Libraries
+
+* **Data**: `pandas`, `numpy`
+* **Modeling**: `scikit-learn`, `xgboost`
+* **API**: `requests`
+* **App**: `streamlit`
+* **Environment**: `python-dotenv`
+* **LLM**: `openai` (or any compatible API client)
+
+### 🌐 Services
+
+* **Alpha Vantage API** – Stock data
+* **OpenAI API** – LLM-based explanations
 
 ---
 
-## 5. Features
+## 5. Project Structure
 
-### 5.1 🧠 Stock Signal Modeling
-
-- **Universe:** Large-cap U.S. equities: `AAPL`, `MSFT`, `AMZN`, `GOOGL`, `META`
-- **Features:**
-  - `short_ma`, `long_ma`: Moving averages
-  - `return`, `ret_lag1`, `ret_lag2`: Lagged returns
-  - `short_vol`, `long_vol`: Rolling volatility
-- **Target:**
-  - `up_next_day = 1` if next close > today’s close; else `0`
-- **Models:**
-  - Logistic Regression  
-  - Random Forest  
-  - XGBoost  
-- **Metric:**  
-  - **Directional accuracy** (typically 53–55%)
-
----
-
-### 5.2 💬 Explainable AI (LLM)
-
-- **LLM Input:**
-  - Symbol, date, prediction, key feature values
-- **Explanation Covers:**
-  - Trend (MA crossover), momentum/reversion, volatility, and disclaimers
-- **Fallback:**
-  - If LLM is unavailable, a **rule-based explanation** is used
+```
+stockalpha-explainable-ml-llm/
+│
+├── app/
+│   └── dashboard.py             # Streamlit dashboard interface
+│
+├── src/
+│   ├── config.py                # Configurations and environment loading
+│   ├── fetch_data.py            # Fetch stock data via API
+│   ├── features.py              # Generate features (MAs, returns, vol)
+│   ├── models.py                # Train and evaluate ML models
+│   ├── llm_explain.py           # Generate LLM-based explanations
+│   └── __init__.py
+│
+├── data/                        # Not version controlled
+│   ├── raw/                     # Raw downloaded stock data
+│   └── processed/               # Processed feature sets
+│
+├── demo_prediction.py           # Command-line demo for predictions
+├── .env.example                 # Environment variable template
+├── .gitignore
+└── README.md
+```
 
 ---
 
-### 5.3 📊 Streamlit Dashboard
+## 6. Features
 
-- **Inputs:**
-  - Symbol and date selectors
-- **Outputs:**
-  - UP probability and prediction
-  - LLM explanation
-  - Feature snapshot
-  - **Price chart** (adjusted close)
-  - **Recent prediction accuracy** (30 days)
-  - **Cross-symbol signal ranking**
+### ✅ Stock Signal Modeling
+
+* Stocks: `AAPL`, `MSFT`, `AMZN`, `GOOGL`, `META`
+* Target: `1` if next close > today’s, else `0`
+* Features:
+
+  * Moving averages (`short_ma`, `long_ma`)
+  * Returns (`return`, `ret_lag1`, `ret_lag2`)
+  * Volatility (`short_vol`, `long_vol`)
+* Models:
+
+  * Logistic Regression
+  * Random Forest
+  * XGBoost
+* Metric: **Directional accuracy** (53–55%)
+
+### 💡 Explainability with LLM
+
+* Inputs:
+
+  * Symbol, date, prediction, feature values
+* Outputs:
+
+  * Natural-language explanations
+  * Disclaimers: risk, weak signals, educational use
+* Fallback:
+
+  * Rule-based explanation if API fails
+
+### 📊 Streamlit Dashboard
+
+* Select stock and date
+* See:
+
+  * Prediction + probability
+  * LLM explanation
+  * Price chart (adjusted close)
+  * Model vs actual (30-day bar chart)
+  * Ranked signals for all stocks
 
 ---
 
-## 6. Setup & Usage
+## 7. Installation & Usage
 
-### 6.1 📥 Clone the Repository
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/ritwikm14/stockalpha-explainable-ml-llm.git
 cd stockalpha-explainable-ml-llm
-````
+```
 
-### 6.2 🛠️ Create and Activate Environment
+### 2. Set Up Environment
 
 ```bash
 conda create -n finance_stock_env python=3.13 -y
 conda activate finance_stock_env
 ```
 
-Install required dependencies:
+### 3. Install Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+> Or manually:
 
 ```bash
 pip install pandas numpy scikit-learn xgboost streamlit python-dotenv requests openai
 ```
 
-### 6.3 🔐 Configure API Keys
+### 4. Configure API Keys
 
-Copy the example environment file and add your credentials:
+Create a `.env` file using the template:
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env`:
+Add your credentials to `.env`:
 
-```text
+```env
 ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
 OPENAI_API_KEY=your_openai_key
-OPENAI_BASE_URL=optional_custom_base_url
+OPENAI_BASE_URL=optional_custom_url
 ```
 
-### 6.4 ⚙️ Run Pipeline (Fetch → Features → Models)
+### 5. Run the ML Pipeline
 
 ```bash
 python -m src.fetch_data
@@ -214,45 +239,62 @@ python -m src.features
 python -m src.models
 ```
 
-### 6.5 🖥️ Run CLI Demo (Optional)
+### 6. Run Demo Script (Optional)
 
 ```bash
 python demo_prediction.py
 ```
 
-### 6.6 🚀 Launch the Dashboard
+### 7. Launch the Dashboard
 
 ```bash
 streamlit run app/dashboard.py
 ```
 
-Open `http://localhost:8501` in your browser.
+Then open: [http://localhost:8501](http://localhost:8501)
 
 ---
 
-## 7. Limitations & Extensions
+## 8. Limitations
 
-### ❗ Current Limitations
-
-* Small symbol set and limited history
-* Only OHLCV-based technical indicators
-* No transaction costs or portfolio simulation
-
-### 🌱 Possible Extensions
-
-* Add fundamentals, macroeconomic data, or sentiment
-* Expand universe and history
-* Use more advanced time-series models (e.g., LSTM)
-* Deploy via **FastAPI + production frontend**
-* Integrate RAG-based news summarization
+* Only 5 stocks are supported
+* No fundamental or sentiment-based signals
+* No portfolio-level backtesting or transaction cost modeling
 
 ---
 
-## 8. Status
+## 9. Future Work
 
-* ✅ Full pipeline operational: API → Features → Model → Dashboard
-* ✅ LLM explanations integrated with fallbacks
-* ✅ Suitable for **FinTech / Quant / ML / GenAI** portfolio showcase
+* Add news/sentiment using RAG or NLP
+* Support additional stocks and timeframes
+* Use advanced models (e.g., LSTM, Transformer)
+* Add FastAPI backend and full-stack deployment
 
 ---
 
+## 10. License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 11. Contributors
+
+* [@ritwikm14](https://github.com/ritwikm14) – Creator & Maintainer
+
+---
+
+```
+
+---
+
+### ✅ Want it as a file?
+Let me know and I can generate a downloadable `README.md` file for you.
+
+Would you also like:
+- A `requirements.txt` based on the packages mentioned?
+- A sample `.env.example` file generated?
+- A banner or logo suggestion for the project?
+
+Let me know!
+```
